@@ -70,6 +70,12 @@ jobs:
       shell: bash
       run: |
         if [[ ${{ matrix.os }} == "windows-2025" ]]; then
+          dir "C:\Program Files\LLVM"
+          dir "C:\Program Files\LLVM\bin"
+          dir "C:\Program Files\LLVM\lib\cmake\llvm"
+
+          echo %PATH%
+
           cmake -B build -S . -G Ninja \
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
             -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} \
