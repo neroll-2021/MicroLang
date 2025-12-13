@@ -50,7 +50,7 @@ jobs:
       if: runner.os == 'Windows'
       uses: KyleMayes/install-llvm-action@v2
       with:
-        version: '21.0.0'
+        version: "21"
 
     - name: Setup dependencies (Linux)
       if: runner.os == 'Linux'
