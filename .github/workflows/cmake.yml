@@ -46,10 +46,28 @@ jobs:
       if: runner.os == 'Windows'
       uses: ilammy/msvc-dev-cmd@v1
 
-    - name: Install LLVM (Windows)
+    - name: Download LLVM (Windows)
       if: runner.os == 'Windows'
+      shell: pwsh
       run: |
-        vcpkg install llvm:x64-windows
+        $LLVM_VERSION = "20.1.8"
+        $LLVM_URL = "https://github.com/llvm/llvm-project/releases/download/llvmorg-$LLVM_VERSION/clang+llvm-$LLVM_VERSION-x86_64-pc-windows-msvc.tar.xz"
+        Invoke-WebRequest $LLVM_URL -OutFile llvm.tar.xz
+
+    - name: Extract LLVM (Windows)
+      if: runner.os == 'Windows'
+      shell: pwsh
+      run: |
+        tar -xf llvm.tar.xz
+        Move-Item clang+llvm-* llvm
+
+    - name: Add LLVM to PATH (Windows)
+      if: runner.os == 'Windows'
+      shell: pwsh
+      run: |
+        $llvmPath = (Get-Item "$PWD\llvm\bin").FullName
+        Write-Host "Adding LLVM to PATH: $llvmPath"
+        [System.Environment]::SetEnvironmentVariable("PATH", $env:PATH + ";$llvmPath", [System.EnvironmentVariableTarget]::Process)
 
     - name: Setup dependencies (Linux)
       if: runner.os == 'Linux'
@@ -74,3 +92,9 @@ jobs:
           -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
 
         cmake --build build
+
+    - name: Run
+      shell: bash
+      run: |
+        cd build
+        ./micc
