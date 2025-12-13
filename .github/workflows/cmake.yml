@@ -52,7 +52,8 @@ jobs:
 
     - name: Install LLVM (Windows)
       if: runner.os == 'Windows'
-      uses: vcpkg install llvm:x64-windows
+      run: |
+        vcpkg install llvm:x64-windows
 
     - name: Setup dependencies (Linux)
       if: runner.os == 'Linux'
