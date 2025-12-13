@@ -46,11 +46,13 @@ jobs:
       if: runner.os == 'Windows'
       uses: ilammy/msvc-dev-cmd@v1
 
+    - name: Install Vcpkg (Windows)
+      if: runner.os == 'Windows'
+      uses: microsoft/setup-vcpkg@v1
+
     - name: Install LLVM (Windows)
       if: runner.os == 'Windows'
-      uses: KyleMayes/install-llvm-action@v2
-      with:
-        version: "20"
+      uses: vcpkg install llvm:x64-windows
 
     - name: Setup dependencies (Linux)
       if: runner.os == 'Linux'
@@ -69,23 +71,9 @@ jobs:
     - name: Build micc
       shell: bash
       run: |
-        if [[ ${{ matrix.os }} == "windows-2025" ]]; then
-          dir "C:\Program Files\LLVM"
-          dir "C:\Program Files\LLVM\bin"
-          dir "C:\Program Files\LLVM\lib\cmake\llvm"
-
-          echo %PATH%
-
-          cmake -B build -S . -G Ninja \
-            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-            -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} \
-            -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
-            -DLLVM_DIR="C:\Program Files\LLVM\lib\cmake\llvm"
-        else
-          cmake -B build -S . -G Ninja \
-            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-            -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} \
-            -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
-        fi
+        cmake -B build -S . -G Ninja \
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+          -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} \
+          -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
 
         cmake --build build
