@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.31)
 
 project(MicroLang VERSION 0.1.0
                   DESCRIPTION "A simple compiler base on LLVM."
-                  LANGUAGES CXX)
+                  LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

@@ -46,7 +46,7 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         sudo apt update
-        sudo apt install -y gcc-14 g++-14 libstdc++-14-dev
+        sudo apt install -y gcc-14 g++-14 libstdc++-14-dev libffi-dev libedit-dev libcurl4-openssl-dev
         sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100
         sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-14 100
         sudo update-alternatives --set gcc /usr/bin/gcc-14
