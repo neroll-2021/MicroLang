@@ -65,9 +65,7 @@ jobs:
       if: runner.os == 'Windows'
       shell: pwsh
       run: |
-        $llvmPath = (Get-Item "$PWD\llvm\bin").FullName
-        Write-Host "Adding LLVM to PATH: $llvmPath"
-        [System.Environment]::SetEnvironmentVariable("PATH", $env:PATH + ";$llvmPath", [System.EnvironmentVariableTarget]::Process)
+        "$PWD\llvm\bin" | Out-File -Append -Encoding utf8 $env:GITHUB_PATH
 
     - name: Setup dependencies (Linux)
       if: runner.os == 'Linux'
