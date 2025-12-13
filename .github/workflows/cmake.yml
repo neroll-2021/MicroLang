@@ -69,9 +69,17 @@ jobs:
     - name: Build micc
       shell: bash
       run: |
-        cmake -B build -S . -G Ninja \
-          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-          -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} \
-          -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
+        if [[ ${{ matrix.os }} == "windows-2025" ]]; then
+          cmake -B build -S . -G Ninja \
+            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+            -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} \
+            -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
+            -DLLVM_DIR="${{ env.LLVM_PATH }}/lib/cmake/llvm"
+        else
+          cmake -B build -S . -G Ninja \
+            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+            -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} \
+            -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
+        fi
 
         cmake --build build
