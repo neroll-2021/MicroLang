@@ -13,7 +13,7 @@ find_package(LLVM REQUIRED CONFIG)
 llvm_map_components_to_libnames(LLVM_LIBRARIES core support)
 
 add_executable(micc src/main.cpp)
-target_include_directories(micc PRIVATE ${LLVM_INCLUDE_DIRS})
+target_include_directories(micc SYSTEM PRIVATE "${LLVM_INCLUDE_DIR}")
 target_link_libraries(micc PRIVATE ${LLVM_LIBRARIES})
 
 target_compile_options(micc PRIVATE
