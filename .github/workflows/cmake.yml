@@ -46,6 +46,12 @@ jobs:
       if: runner.os == 'Windows'
       uses: ilammy/msvc-dev-cmd@v1
 
+    - name: Install LLVM (Windows)
+      if: runner.os == 'Windows'
+      uses: KyleMayes/install-llvm-action@v2
+      with:
+        version: '21.0.0'
+
     - name: Setup dependencies (Linux)
       if: runner.os == 'Linux'
       run: |
