@@ -27,7 +27,7 @@ target_include_directories(micro_core SYSTEM PUBLIC "${LLVM_INCLUDE_DIR}")
 target_link_libraries(micro_core PRIVATE "${LLVM_LIBRARIES}")
 
 add_executable(micc src/main.cpp)
-target_link_libraries(micc PRIVATE micro_core)
+target_link_libraries(micc PUBLIC micro_core)
 
 target_compile_options(micc PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
