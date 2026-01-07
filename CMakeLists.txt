@@ -12,10 +12,19 @@ find_package(LLVM REQUIRED CONFIG)
 
 llvm_map_components_to_libnames(LLVM_LIBRARIES core support)
 
-add_library(micro_core STATIC src/Token.cpp src/Lexer.cpp)
-target_include_directories(micro_core PUBLIC include)
+add_library(micro_core)
+target_sources(micro_core
+    PRIVATE
+    src/Token.cpp
+    src/Lexer.cpp
+
+    PUBLIC
+    FILE_SET HEADERS
+    BASE_DIRS include
+    FILES include/micro/Token.hpp include/micro/Lexer.hpp
+)
 target_include_directories(micro_core SYSTEM PUBLIC "${LLVM_INCLUDE_DIR}")
-target_link_libraries(micro_core PUBLIC "${LLVM_LIBRARIES}")
+target_link_libraries(micro_core PRIVATE "${LLVM_LIBRARIES}")
 
 add_executable(micc src/main.cpp)
 target_link_libraries(micc PRIVATE micro_core)
