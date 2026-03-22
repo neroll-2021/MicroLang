@@ -14,10 +14,18 @@ enum TokenKind {
 
     // Keywords.
     Kw_Import,
+    Kw_Let,
 
     Kw_Bool,
     Kw_Int,
     Kw_Long,
+    Kw_Struct,
+
+    Kw_True,
+    Kw_False,
+
+    Kw_If,
+    Kw_Else,
 
     Kw_Func,
     Kw_Return,
