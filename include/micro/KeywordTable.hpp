@@ -15,6 +15,11 @@ class KeywordTable {
 
     static KeywordTable &instance();
 
+    KeywordTable(const KeywordTable &) = delete;
+    KeywordTable(KeywordTable &&) = delete;
+    KeywordTable &operator=(const KeywordTable &) = delete;
+    KeywordTable &operator=(KeywordTable &&) = delete;
+
  private:
     KeywordTable();
 
