@@ -6,8 +6,9 @@
 #include <llvm/Support/MemoryBufferRef.h>
 #include <llvm/Support/SMLoc.h>
 #include <llvm/Support/SourceMgr.h>
-
 #include <llvm/Support/raw_ostream.h>
+
+#include <micro/KeywordTable.hpp>
 #include <micro/Lexer.hpp>
 #include <micro/Token.hpp>
 
@@ -62,7 +63,10 @@ auto micro::Lexer::scan_identifier() -> Token {
     while (is_identifier_continuation(peek())) {
         advance();
     }
-    return make_token(TokenKind::Identifier);
+    llvm::StringRef lexeme = get_current_lexeme();
+    TokenKind kind =
+        KeywordTable::instance().find(lexeme).value_or(TokenKind::Identifier);
+    return make_token(kind);
 }
 
 auto micro::Lexer::scan_number() -> Token {
@@ -89,9 +93,13 @@ bool micro::Lexer::is_digit(char ch) {
 }
 
 auto micro::Lexer::make_token(TokenKind kind) -> Token {
-    llvm::StringRef lexeme(token_begin_, current_ - token_begin_);
+    llvm::StringRef lexeme = get_current_lexeme();
     auto location = llvm::SMLoc::getFromPointer(token_begin_);
     return {kind, lexeme, location, Token::Unsafe{}};
+}
+
+llvm::StringRef micro::Lexer::get_current_lexeme() {
+    return {token_begin_, static_cast<size_t>(current_ - token_begin_)};
 }
 
 bool micro::Lexer::match(char ch) {
