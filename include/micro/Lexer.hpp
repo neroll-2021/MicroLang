@@ -1,6 +1,7 @@
 #ifndef NEROLL_MICROLANG_LEXER_HPP
 #define NEROLL_MICROLANG_LEXER_HPP
 
+#include <llvm/ADT/StringRef.h>
 #include <llvm/Support/MemoryBuffer.h>
 #include <llvm/Support/MemoryBufferRef.h>
 #include <llvm/Support/SMLoc.h>
@@ -89,6 +90,13 @@ class Lexer {
      * @return Created token.
      */
     Token make_token(TokenKind kind);
+
+    /**
+     * @brief Gets the lexeme of the token that is being processed.
+     *
+     * @return The lexeme of the token that is being processed.
+     */
+    llvm::StringRef get_current_lexeme();
 
     /**
      * @brief If the character in current location is the same with

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.31)
+cmake_minimum_required(VERSION 3.28)
 
 project(MicroLang VERSION 0.1.0
                   DESCRIPTION "A simple compiler base on LLVM."
